@@ -1,12 +1,6 @@
 import axios from 'axios';
 
-let base = 'api';
-
-export const requestLogin = params => { return axios.post(`${base}/login`, params,{
-    headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-    }
-}).then(res => res.data); };
+let base = '';
 
 export const getUserList = params => { return axios.get(`${base}/user/list`, { params: params }); };
 

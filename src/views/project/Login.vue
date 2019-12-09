@@ -105,7 +105,7 @@ export default {
             data: params
           })
             .then(res => {
-              let token = res.data.access_token;
+              let token = res.access_token;
               this.$cookies.set("token", token);
               this.$cookies.set("userName", username);
               this.$http.defaults.headers["Authorization"] = token;

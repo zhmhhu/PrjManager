@@ -2,7 +2,7 @@
  * @Author: zhaomin 
  * @Date: 2018-05-30 16:23:25 
  * @Last Modified by: zhaomin
- * @Last Modified time: 2019-12-06 00:21:51
+ * @Last Modified time: 2019-12-07 23:27:12
  * @description: 
  */
 
@@ -18,10 +18,11 @@ import Vuex from 'vuex'
 import VueCookies from 'vue-cookies'
 import { routers } from '../../router/project/index'
 import axios from "axios"
+import '../../utils/filter_util'
 
 // mock生成测试数据
-// import Mock from '../../mock'
-// Mock.bootstrap();
+import Mock from '../../mock'
+Mock.bootstrap();
 
 
 Vue.use(ElementUI)
@@ -48,10 +49,12 @@ Vue.use(VueCookies)
     created() {
       Vue.prototype.$http = axios;
       this.$http.interceptors.response.use(response => {
-        console.log('-----')
+        console.log('---res--')
         console.log(response.data)
 				return response.data
 			}, error => {
+        console.log('--error---')
+        console.log(error.response)
 				if (error && error.response && error.response.status == "401") {
           this.$cookies.remove("userName");
           this.$cookies.remove("token");

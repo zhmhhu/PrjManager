@@ -8,8 +8,8 @@ import { LoginUsers, Users } from './data/users';
 import Units from './data/units'
 
 let _Users = Users;
-let _Prjs = Prjs;
-let _Units=Units;
+let _Prjs  = Prjs;
+let _Units = Units;
 
 let userMap = LoginUsers;
 
@@ -29,12 +29,6 @@ export default {
     mock.onGet('/error').reply(500, {
       msg: 'failure'
     });
-
-    //把请求发送到服务器，不拦截
-    mock.onPost('/api/login').passThrough();
-    mock.onPost('/api/current').passThrough();
-    mock.onPost('/api/menu').passThrough();
-
 
     // 登录相关
     // Mock.mock(/\/login\/login/, 'post', loginAPI.loginByUsername)
@@ -115,24 +109,24 @@ export default {
 
 
     // //获取项目列表（分页）
-    mock.onGet('/api/user/prjpage').reply(config => {
+    // mock.onGet('/api/user/prjpage').reply(config => {
 
-      let { page, prjname } = config.params;
-      let mockPrjs = _Prjs.filter(user => {
-        if (prjname && user.prjname.indexOf(prjname) == -1) return false;
-        return true;
-      });
-      let total = mockPrjs.length;
-      mockPrjs = mockPrjs.filter((u, index) => index < 20 * page && index >= 20 * (page - 1));
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve([200, {
-            total: total,
-            users: mockPrjs
-          }]);
-        }, 1000);
-      });
-    });
+    //   let { page, prjname } = config.params;
+    //   let mockPrjs = _Prjs.filter(user => {
+    //     if (prjname && user.prjname.indexOf(prjname) == -1) return false;
+    //     return true;
+    //   });
+    //   let total = mockPrjs.length;
+    //   mockPrjs = mockPrjs.filter((u, index) => index < 20 * page && index >= 20 * (page - 1));
+    //   return new Promise((resolve, reject) => {
+    //     setTimeout(() => {
+    //       resolve([200, {
+    //         total: total,
+    //         users: mockPrjs
+    //       }]);
+    //     }, 1000);
+    //   });
+    // });
 
 
     // //删除用户
@@ -207,7 +201,7 @@ export default {
     //   });
     // });
 
-    mock.onGet('/api/unit/info').reply(config => {
+    mock.onGet('/unit/info').reply(config => {
       const { page,type } = config.params;
       let mockUnits  = _Units.filter(u => u.type == type);
       let total = mockUnits.length;
@@ -221,7 +215,15 @@ export default {
       });
     });
 
+     //把请求发送到服务器，不拦截
+    //  mock.onAny('/api/login').passThrough();
+    //  mock.onAny('/api/current').passThrough();
+    //  mock.onAny('/api/menu').passThrough();
     // 默认不拦截任何请求
-    // mock.onAny().passThrough();
+    mock.onAny().passThrough();
+
+    
+    // mock.onPost(/\/^api/).passThrough()
+    //     .onGet(/\/^api/).passThrough();
   }
 };

@@ -53,17 +53,17 @@ const app = {
         UpdateMenu(context) {
             return new Promise((resolve, reject) => {
                 axios.get(context.state.baseURL + "/current").then(res => {
-                    let userId = res.data;
+                    let userId = res;
                     context.commit("updateUserId",userId);
                     axios.get(context.state.baseURL + "/menu/user", {
                         params: {
                             userId: userId
                         }
                     }).then(res => {
-                        res.data.forEach(v => {
+                        res.forEach(v => {
                             toComponent(v);
                         });
-                        let route = toHierarchy(res.data,"menuId");
+                        let route = toHierarchy(res,"menuId");
                         console.log(route)
                         context.commit('updateRouter', route);
                         context.commit("updateMenu", route)
